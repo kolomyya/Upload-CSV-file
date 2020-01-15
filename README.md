@@ -2,7 +2,7 @@
 ```
 #!/usr/bin/env groovy
 @Library("CommonConfigLib@master")
-def pipeline = new com.mcd.config.uploadTesting()
+def pipeline = new com.lib.uploadTesting()
 
 pipeline.runPipeline();
 ```
