@@ -1,4 +1,18 @@
+package org.jenkinsci.plugins.workflow.cps.global
 
+import hudson.Extension
+import hudson.ExtensionList
+import hudson.model.Run
+import hudson.util.CopyOnWriteList
+import org.apache.commons.io.FilenameUtils
+import org.jenkinsci.plugins.workflow.cps.GlobalVariable;
+import org.jenkinsci.plugins.workflow.cps.GlobalVariableSet
+
+import javax.inject.Inject
+import java.io.File
+import java.util.ArrayList
+import java.util.Collection
+import java.util.List
 import hudson.FilePath
 import hudson.model.ParametersAction
 import hudson.model.FileParameterValue
