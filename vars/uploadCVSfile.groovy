@@ -1,3 +1,6 @@
+#!/usr/bin/env groovy
+
+import groovy.json.JsonSlurper
 import hudson.FilePath
 import hudson.model.ParametersAction
 import hudson.model.FileParameterValue
