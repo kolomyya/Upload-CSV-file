@@ -1,46 +1,44 @@
-#!/usr/bin/env groovy
 
-import groovy.json.JsonSlurper
 import hudson.FilePath
 import hudson.model.ParametersAction
 import hudson.model.FileParameterValue
 import hudson.model.Executor
 
-node('master') {
-    stage('Upload'){
-        def call(String name, String fname = null) {
-            def paramsAction = currentBuild.rawBuild.getAction(ParametersAction.class);
-            if (paramsAction != null) {
-                for (param in paramsAction.getParameters()) {
-                    if (param.getName().equals(name)) {
-                        if (! (param instanceof FileParameterValue)) {
-                            error "unstashParam: not a file parameter: ${name}"
-                        }
-                        if (env['NODE_NAME'] == null) {
-                            error "unstashParam: no node in current context"
-                        }
-                        if (env['WORKSPACE'] == null) {
-                            error "unstashParam: no workspace in current context"
-                        }
+def call(String name, String fname = null) {
+    def paramsAction = currentBuild.rawBuild.getAction(ParametersAction.class);
 
-            if (env['NODE_NAME'].equals("master")) {
-                workspace = new FilePath(null, env['WORKSPACE'])
-            }else{
-                                workspace = new FilePath(Jenkins.getInstance().getComputer(env['NODE_NAME']).getChannel(), env['WORKSPACE'])
+    if (paramsAction == null) {
+        error "unstashParam: No file parameter named '${name}'"
+    }
+
+    for (param in paramsAction.getParameters()) {
+        if (param.getName().equals(name)) {
+            if (! param instanceof FileParameterValue) {
+                error "unstashParam: not a file parameter: ${name}"
             }
-
-                        filename = fname == null ? param.getOriginalFileName() : fname
-                        file = workspace.child(filename)
-
-                        destFolder = file.getParent()
-                        destFolder.mkdirs()
-
-                        file.copyFrom(param.getFile())
-                        return filename;
-                    }
-                }
+            if (env['NODE_NAME'] == null) {
+                error "unstashParam: no node in current context"
             }
-            error "unstashParam: No file parameter named '${name}'"
+            if (env['WORKSPACE'] == null) {
+                error "unstashParam: no workspace in current context"
+            }
+            workspace = new FilePath(getComputer(env['NODE_NAME']), env['WORKSPACE'])
+            filename = fname == null ? param.getOriginalFileName() : fname
+            file = workspace.child(filename)
+            file.copyFrom(param.getFile())
+            return filename;
         }
     }
-}        
+}
+
+
+def getComputer(name){
+
+    for(computer in Jenkins.getInstance().getComputers()){ 
+        if(computer.getDisplayName() == name){
+            return computer.getChannel()
+        }
+    }
+
+    error "Cannot find computer for file parameter workaround"
+}
