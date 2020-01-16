@@ -3,7 +3,7 @@ package com.lib
 import groovy.json.JsonSlurper
 import hudson.FilePath
 
-def runPipeline() {
+def runPipeline() {}
     
 node { 
     deleteDir() 
@@ -26,5 +26,5 @@ node {
     }    
     } 
     } 
-}
+
 return this
