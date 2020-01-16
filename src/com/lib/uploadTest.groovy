@@ -15,7 +15,7 @@ node {
     
 
     stage("checkout") { 
-     echo fileExists('$workspace/restaurantConfigCSV').toString() 
+     echo fileExists("$workspace/restaurantConfigCSV".toString() 
     stage("read") {
         def filenames = readFile '$workspace/restaurantConfigCSV'
         def filenameArray = filenames.split(",")
