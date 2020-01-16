@@ -12,7 +12,9 @@ node {
         new hudson.FilePath(new File("$workspace/restaurantConfigCSV")).copyFrom(inputFile) 
         inputFile.delete() 
     }
-    
+    stage("find") {
+        def pomPath = findFiles(glob: "**/my.csv")[0].path
+        echo new File(env.WORKSPACE, pomPath).getParent() +"\my.csv"
 
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
