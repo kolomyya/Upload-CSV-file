@@ -12,9 +12,9 @@ def inputFile = input message: 'Upload file', parameters: [file(name: "$workspac
         }
   
     stage("checkout") { 
-     echo fileExists('"$workspace/').toString() 
+     echo fileExists('/var/lib/jenkins/workspace/CORE Project/Automation Pipeline Cores/Restaurant Configuration/US/UploadCSV/').toString() 
     stage("read") {
-        def filenames = readFile '"$workspace/'
+        def filenames = readFile '/var/lib/jenkins/workspace/CORE Project/Automation Pipeline Cores/Restaurant Configuration/US/UploadCSV/'
         def filenameArray = filenames.split(",")
         for(int i = 0; i < filenameArray.size(); i++) {
         def file = filenameArray[i]
