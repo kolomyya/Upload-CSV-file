@@ -1,8 +1,8 @@
 # Upload-CSV-file
 ```
 #!/usr/bin/env groovy
-@Library("CommonConfigLib@master")
-def pipeline = new com.lib.uploadTesting()
-
-pipeline.runPipeline();
+@Library("jenkins-global-config-lib@master")_
+def common = new com.lib.uploadTest()
+ 
+common.runPipeline()
 ```
