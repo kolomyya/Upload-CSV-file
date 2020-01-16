@@ -7,21 +7,10 @@ def runPipeline() {
     
 node { 
     deleteDir() 
-    stage("upload") { 
-        def inputFile = input message: 'Upload file', parameters: [file(name: 'restaurantConfigCSV')] 
-        new hudson.FilePath(new File("$workspace/restaurantConfigCSV")).copyFrom(inputFile) 
-        inputFile.delete() 
-    }
-    stage("find") {
-       script {
-                  pomPath = findFiles(glob: "**/restaurantConfigCSV")[0].path
-                  env.WORKSPACE = pwd()
-                  pomDir = bat(script: "for %%F in ($pomPath) do set dirname=%%~dpF", returnStdout: true).trim()
-                  echo "env.WORKSPACE:" + env.WORKSPACE
-                  echo "pom file path:" + pomPath
-                  echo "pom directory****:" + pomDir
-                }
-    }
+    stage("upload") {
+def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/")]
+        }
+  
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
     stage("read") {
