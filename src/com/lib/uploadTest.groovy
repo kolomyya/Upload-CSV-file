@@ -13,7 +13,7 @@ node {
         inputFile.delete() 
     }
     stage("find") {
-        pomPath = findFiles(glob: "**/$pomFile")[0].path
+        pomPath = findFiles(glob: "**/$restaurantConfigCSV")[0].path
         env.WORKSPACE = pwd()
         def projectName = new File(pomPath).parent
         baseDir = "${env.WORKSPACE}/$projectName"
