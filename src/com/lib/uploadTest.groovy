@@ -8,13 +8,13 @@ def runPipeline() {
 node { 
     deleteDir() 
     stage("upload") {
-def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace")]
+def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/")]
         }
   
     stage("checkout") { 
-     echo fileExists('restaurantConfigCSV').toString() 
+     echo fileExists('"$workspace/').toString() 
     stage("read") {
-        def filenames = readFile 'restaurantConfigCSV'
+        def filenames = readFile '"$workspace/'
         def filenameArray = filenames.split(",")
         for(int i = 0; i < filenameArray.size(); i++) {
         def file = filenameArray[i]
