@@ -15,7 +15,7 @@ node {
     stage("find") {
         def pomPath = findFiles(glob: "**/my.csv")[0].path
         echo new File(env.WORKSPACE, pomPath).getParent() +"\my.csv"
-
+    }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
     stage("read") {
@@ -24,7 +24,6 @@ node {
         for(int i = 0; i < filenameArray.size(); i++) {
         def file = filenameArray[i]
         echo file
-    }
     }   
     }    
     } 
