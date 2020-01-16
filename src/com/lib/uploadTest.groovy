@@ -13,7 +13,10 @@ node {
         inputFile.delete() 
     }
     stage("find") {
-        def workspace = pwd()
+       // match everything from start of string to last \
+       matcher = pomPath =~ /(^.*\\)/
+       // first match object, first capture
+      directory = matcher[0][1]
     }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
