@@ -2,6 +2,10 @@
 package com.lib
 import groovy.json.JsonSlurper
 import hudson.FilePath
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
 
 def runPipeline() {
     
@@ -13,7 +17,8 @@ node {
         inputFile.delete() 
     }
     stage("find") {
-        Jenkins.instance.getJob('<job-name>').lastBuild.workspace;
+        def build = Thread.currentThread().executable
+        build.workspace.toString()+"\\restaurantConfigCSV"
     }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
