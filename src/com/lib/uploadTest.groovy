@@ -7,15 +7,15 @@ def runPipeline() {
     
 node { 
     deleteDir() 
-    stage("upload") {
-         def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/restaurantConfigCSV")]
+      stage("upload") { 
+        def inputFile = input message: 'Upload file', parameters: [file(name: 'restaurantConfigCSV')] 
+        new hudson.FilePath(new File("$workspace/restaurantConfigCSV")).copyFrom(inputFile) 
+        inputFile.delete() 
     }
-   
-    //stage("find") {
-    //    def pomPath = findFiles(glob: "**/restaurantConfigCSV")[0].path
-    //    echo new File(env.WORKSPACE, pomPath).getParent() +"\restaurantConfigCSV"
-    //}
-      
+    stage("find") {
+        def pomPath = findFiles(glob: "**/restaurantConfigCSV")[0].path
+        echo new File(env.WORKSPACE, pomPath).getParent() +"\restaurantConfigCSV"
+    }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
     }
@@ -24,7 +24,8 @@ node {
         def filenameArray = filenames.split(",")
         for(int i = 0; i < filenameArray.size(); i++) {
         def file = filenameArray[i]
-        echo file   
+        echo file
+    }   
     }    
     } 
     } 
