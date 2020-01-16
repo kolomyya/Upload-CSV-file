@@ -3,6 +3,8 @@ package com.lib
 import groovy.json.JsonSlurper
 import hudson.FilePath
 
+def runPipeline() {
+    
 node { 
     deleteDir() 
     stage("upload") { 
@@ -24,3 +26,5 @@ node {
     }    
     } 
     } 
+}
+return this
