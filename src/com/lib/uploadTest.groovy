@@ -24,6 +24,7 @@ node {
         for(int i = 0; i < filenameArray.size(); i++) {
         def file = filenameArray[i]
         echo file
+    }
     }   
     }    
     } 
