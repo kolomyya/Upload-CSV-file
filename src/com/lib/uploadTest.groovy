@@ -13,10 +13,7 @@ node {
         inputFile.delete() 
     }
     stage("find") {
-        pomPath = findFiles(glob: "**/restaurantConfigCSV")[0].path
-        env.WORKSPACE = pwd()
-        def projectName = new File(pomPath).parent
-        baseDir = "${env.WORKSPACE}/$projectName"
+        Jenkins.instance.getJob('<job-name>').lastBuild.workspace;
     }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
