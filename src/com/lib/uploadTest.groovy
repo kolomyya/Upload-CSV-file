@@ -16,7 +16,7 @@ node {
         pomPath = findFiles(glob: "**/$pomFile")[0].path
         env.WORKSPACE = pwd()
         def projectName = new File(pomPath).parent
-        baseDir = "${env.WORKSPACE}/$projectName""
+        baseDir = "${env.WORKSPACE}/$projectName"
     }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
