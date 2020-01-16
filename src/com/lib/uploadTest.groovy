@@ -8,7 +8,7 @@ def runPipeline() {
 node { 
     deleteDir() 
     stage("upload") {
-def inputFile = input message: 'Upload file', parameters: [file(name: "restaurantConfigCSV")]
+def inputFile = input message: 'Upload file', parameters: [file(name: "workspace/restaurantConfigCSV")]
         }
   
     stage("checkout") { 
