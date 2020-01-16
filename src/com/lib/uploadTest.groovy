@@ -13,8 +13,10 @@ node {
         inputFile.delete() 
     }
     stage("find") {
-        def pomPath = findFiles(glob: "**/restaurantConfigCSV")[0].path
-        echo new File(env.WORKSPACE, pomPath).getParent() +"\restaurantConfigCSV"
+        pomPath = findFiles(glob: "**/$pomFile")[0].path
+        env.WORKSPACE = pwd()
+        def projectName = new File(pomPath).parent
+        baseDir = "${env.WORKSPACE}/$projectName""
     }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
