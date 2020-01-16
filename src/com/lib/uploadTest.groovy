@@ -13,10 +13,14 @@ node {
         inputFile.delete() 
     }
     stage("find") {
-       // match everything from start of string to last \
-       matcher = pomPath =~ /(^.*\\)/
-       // first match object, first capture
-      directory = matcher[0][1]
+       script {
+                  pomPath = findFiles(glob: "**/restaurantConfigCSV")[0].path
+                  env.WORKSPACE = pwd()
+                  pomDir = bat(script: "for %%F in ($pomPath) do set dirname=%%~dpF", returnStdout: true).trim()
+                  echo "env.WORKSPACE:" + env.WORKSPACE
+                  echo "pom file path:" + pomPath
+                  echo "pom directory****:" + pomDir
+                }
     }
     stage("checkout") { 
      echo fileExists('restaurantConfigCSV').toString() 
