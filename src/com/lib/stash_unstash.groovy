@@ -1,9 +1,9 @@
 node('slave') {
    node('master'){
-    dir('path to file'){
-       stash name: 'my_stash' includes{'My.csv'}
+    def stash_file(file_name, name){
+    this.steps.stash ('includes': file_name, 'name': name)
 }
-unstash name:'my_stash'
-sh 'ls'
-}
+
+def unstash_file(name){
+    this.steps.unstash name
 }
