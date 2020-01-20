@@ -1,35 +1,28 @@
-// First we'll generate a text file in a subdirectory on one node and stash it.
-stage "first step on first node"
+#!/usr/bin/env groovy
+package com.lib
+import groovy.json.JsonSlurper
+import hudson.FilePath
 
-// Run on a node with the "first-node" label.
-node('first-node') {
-    // Make the output directory.
-    sh "mkdir -p output"
+def runPipeline() {
+    
+node { 
 
-    // Write a text file there.
-    writeFile file: "output/somefile", text: "Hey look, some text."
-
-    // Stash that directory and file.
-    // Note that the includes could be "output/", "output/*" as below, or even
-    // "output/**/*" - it all works out basically the same.
-    stash name: "first-stash", includes: "output/*"
+stage ('stash') {
+   node { label  'one' }
+   steps {
+       script {
+           sh "echo 1 > my.csv" // runs in $WORKSPACE, creates $WORKSPACE/my.csv
+           stash name: "my_stash", includes: "my.csv" // relative to $WORKSPACE
+       }
+   }
 }
 
-// Next, we'll make a new directory on a second node, and unstash the original
-// into that new directory, rather than into the root of the build.
-stage "second step on second node"
-
-// Run on a node with the "second-node" label.
-node('second-node') {
-    // Run the unstash from within that directory!
-    dir("first-stash") {
-        unstash "first-stash"
-    }
-
-    // Look, no output directory under the root!
-    // pwd() outputs the current directory Pipeline is running in.
-    sh "ls -la ${pwd()}"
-
-    // And look, output directory is there under first-stash!
-    sh "ls -la ${pwd()}/first-stash"
+stage ('unstash') {
+   node { label  'two' }
+   steps {
+       script {
+           unstash name: "my_stash"  // runs in $WORKSPACE, creates $WORKSPACE/my.csv
+           sh "cat ./my.csv"
+       }
+   }
 }
