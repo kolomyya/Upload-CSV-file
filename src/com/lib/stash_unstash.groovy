@@ -24,3 +24,4 @@ node('slave') {
         sh 'tree -L 2'
         deleteDir()
     }
+}
