@@ -7,3 +7,4 @@ node('slave') {
 def unstash_file(name){
     this.steps.unstash name
 }
+   }
